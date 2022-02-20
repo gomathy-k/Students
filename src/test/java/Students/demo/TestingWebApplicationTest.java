@@ -34,7 +34,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class) 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // to run tests in specified order
 public class TestingWebApplicationTest {
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +52,7 @@ public class TestingWebApplicationTest {
     }
 
     @Test
-    @Order(1)
+    @Order(1) //first test
     public void showAllStudents() throws Exception { //test: retrieve all student records
         this.mockMvc.perform(get("/student"))
                 .andDo(print())
@@ -61,7 +61,7 @@ public class TestingWebApplicationTest {
                 .andExpect(jsonPath("$[1].firstName", Matchers.is("Jane")));
     }
     @Test
-    @Order(2)
+    @Order(2) //second test
     public void getStudentById_goodRecord() throws Exception { //test: retrieve student with supplied ID
         this.mockMvc.perform(get("/student/220003"))
                 .andDo(print())
@@ -70,7 +70,7 @@ public class TestingWebApplicationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(3)//third test
     public void createStudent() throws Exception { //test: create a new student from supplied data
         String uri = "/student"; //this for post endpoint
         Student student = new Student("TestFname", "TestSname", "01/01/2020", "Male", "Male", "1234567", "Test Address");
@@ -89,7 +89,7 @@ public class TestingWebApplicationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(4)//fourth test
     public void updateStudent_goodRecord() throws Exception { //test: update an existing student
         String uri = "/student/220003";
         Student student = new Student("Changed", "Changed", "0101200", "Male", "Male", "1234567", "abc");
@@ -104,7 +104,7 @@ public class TestingWebApplicationTest {
                     .andReturn();
     }
     @Test
-    @Order(5)
+    @Order(5)//fifth test
     public void updateStudent_recordNotFound() throws Exception { //test: update a non-existing student
         String uri = "/student/9";
         Student student = new Student("Changed2", "Changed2", "0101200", "Male", "Male", "1234567", "abc");
@@ -118,7 +118,7 @@ public class TestingWebApplicationTest {
 
     }
     @Test
-    @Order(6)
+    @Order(6)//sixth test
     public void deleteStudent_goodRecord() throws Exception { //test: delete an existing student
         String uri = "/student/220003";
         this.mockMvc.perform(MockMvcRequestBuilders.delete(uri))
@@ -127,6 +127,7 @@ public class TestingWebApplicationTest {
     }
 
  /*   @Test
+    @Order(7)//seventh test
     public void deleteStudent_recordNotFound() throws Exception { //test: delete a non-existing student
 
         String uri = "/student/9";
