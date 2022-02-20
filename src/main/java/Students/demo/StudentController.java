@@ -17,24 +17,24 @@ public class StudentController {
     }
     //display all students
     @GetMapping("/student")
-    List<Student> all() {
+    public List<Student> displayAllStudents() {
         return repository.findAll();
     }
 
     @PostMapping("/student")
-    Student newStudent(@RequestBody Student newStudent) {
+    public Student addNewStudent(@RequestBody Student newStudent) {
         return repository.save(newStudent);
     }
     // add a single new student
 
     @GetMapping("/student/{id}")
-    Student one(@PathVariable Long id) {
+    public Student fetchById(@PathVariable Long id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id));
     }
     @PutMapping("/student/{id}")
-    Student replaceEmployee(@RequestBody Student newStudent, @PathVariable Long id) {
+    public Student replaceStudent(@RequestBody Student newStudent, @PathVariable Long id) {
 
         return repository.findById(id)
                 .map(student -> {
@@ -45,17 +45,12 @@ public class StudentController {
                     student.setSex(newStudent.getSex());
                     student.setPhoneNumber(newStudent.getPhoneNumber());
                     student.setAddress(newStudent.getAddress());
-
-
                     return repository.save(student);
                 })
-                .orElseGet(() -> {
-                    newStudent.setId(id);
-                    return repository.save(newStudent);
-                });
+                .orElseThrow(() -> new StudentNotFoundException(id));
     }
     @DeleteMapping("/student/{id}")
-    void deleteStudent(@PathVariable Long id) {
+    public void deleteStudent(@PathVariable Long id) throws StudentNotFoundException {
         repository.deleteById(id);
     }
 }
