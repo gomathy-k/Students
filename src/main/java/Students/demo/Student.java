@@ -1,13 +1,29 @@
 package Students.demo;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 @Entity
 public class Student {
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(generator = "sequence-generator") //sets the starting ID value to auto-generate IDs
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "user_sequence"),
+                    @Parameter(name = "initial_value", value = "220001"), //starting student ID
+                    @Parameter(name = "increment_size", value = "1") //incremented by 1 for each new student
+            }
+    )
+
+    private Long id;//auto-generated ID
     private String firstName;
     private String surname;
     private String dateOfBirth;

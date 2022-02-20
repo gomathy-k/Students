@@ -63,10 +63,10 @@ public class TestingWebApplicationTest {
     @Test
     @Order(2)
     public void getStudentById_goodRecord() throws Exception { //test: retrieve student with supplied ID
-        this.mockMvc.perform(get("/student/1"))
+        this.mockMvc.perform(get("/student/220003"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName", Matchers.is("John")));
+                .andExpect(jsonPath("$.firstName", Matchers.is("Jason")));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TestingWebApplicationTest {
     @Test
     @Order(4)
     public void updateStudent_goodRecord() throws Exception { //test: update an existing student
-        String uri = "/student/2";
+        String uri = "/student/220003";
         Student student = new Student("Changed", "Changed", "0101200", "Male", "Male", "1234567", "abc");
         String inputJson = this.mapToJson(student);
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(uri)
@@ -120,7 +120,7 @@ public class TestingWebApplicationTest {
     @Test
     @Order(6)
     public void deleteStudent_goodRecord() throws Exception { //test: delete an existing student
-        String uri = "/student/2";
+        String uri = "/student/220003";
         this.mockMvc.perform(MockMvcRequestBuilders.delete(uri))
                 .andDo(print())
                 .andExpect(status().isOk());
